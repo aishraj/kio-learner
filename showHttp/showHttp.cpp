@@ -3,11 +3,12 @@
 
 showHttp::showHttp()
 {
-    output();
+  output();
 }
 
 showHttp::~showHttp()
-{}
+{
+}
 
 void showHttp::output()
 {
@@ -16,20 +17,14 @@ void showHttp::output()
   job = KIO::get(KUrl("http://download.services.openoffice.org/files/du.list"));
   job->addMetaData("PropagateHttpHeader","true");
   job->setRedirectionHandlingEnabled(false);//In case this is set true of left to the defaults the URL is being redirected.
-  //connect (job, SIGNAL(  mimetype(KIO::Job *, const QString & )), this, SLOT(headerIsHere(KIO::Job *)));
-  connect(job,SIGNAL(result(KJob*)),this,SLOT(headerIsHere(KJob*)));
+  connect(job, SIGNAL(result(KJob*)), this, SLOT(slotResult(KJob*)));
 }
 
-void showHttp::headerIsHere(KJob* metaJob)
+void showHttp::slotResult(KJob* kjob)
 {
-  KIO::Job* headerJob = (KIO::Job *) metaJob;
-  QString httpHeaders = headerJob->queryMetaData("HTTP-Headers");
-  //QVariant httpVarient = metaJob->metaData().toVariant();
-  //QString customHeaders = metaJob->queryMetaData("CustomHTTPHeader");
-  qDebug() << "data is here";
-  qDebug()<< httpHeaders;
-
-  exit(0);
-
+  KIO::Job* job = qobject_cast<KIO::Job*>(kjob);
+  const QString httpHeaders = job ? job->queryMetaData("HTTP-Headers") : QString();
+  qDebug() << "HTTP HEADERS:" << httpHeaders;
 }
+
 #include "showHttp.moc"

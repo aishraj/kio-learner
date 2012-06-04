@@ -2,7 +2,6 @@
 #define showHttp_H
 
 #include <QtCore/QObject>
-#include <QNetworkAccessManager>
 #include <KIO/AccessManager>
 #include <KIO/Job>
 #include <KIO/SimpleJob>
@@ -23,7 +22,7 @@ private:
     QNetworkReply * m_headerReply;
 
 public slots:
-    void headerIsHere(KJob* metaJob);
+    void slotResult(KJob* kjob);
     void output();
 };
 
