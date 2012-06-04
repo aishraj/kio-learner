@@ -23,7 +23,7 @@ private:
     QNetworkReply * m_headerReply;
 
 public slots:
-    void headerIsHere(KIO::Job*);
+    void headerIsHere(KJob* metaJob);
     void output();
 };
 
