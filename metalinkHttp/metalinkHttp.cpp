@@ -73,8 +73,11 @@ void metalinkHttp::parseHeaders(const QString &httpHeader )
   foreach (QString line, trimedHeader.split('\n')) {
     int colon = line.indexOf(':');
     QString headerName = line.left(colon).trimmed();
-    QString headerValue = line.mid(colon + 1).trimmed();
-    
+    QString headerValue = line.mid(colon + 1).trimmed();  
+    int lessthan_pos = line.indexOf('<');
+    if (lessthan_pos >= 0) {
+      headerValue = line.mid(lessthan_pos + 1).trimmed();
+    }
     m_headerInfo.insertMulti(headerName,headerValue);
   }
 }
