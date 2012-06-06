@@ -50,6 +50,7 @@ void metalinkHttp::slotHeaderResult(KJob* kjob)
   const QString httpHeaders = job ? job->queryMetaData("HTTP-Headers") : QString();
   parseHeaders(httpHeaders);
   qDebug() << "HTTP HEADERS:" << httpHeaders;
+  //TODO: add a method that checks if this header was a metalink http header. THen after that set the flag as true. For now, the flag has been set as true.
   m_MetalinkHSatus = true;
   connect(this,SIGNAL(valueChanged(m_MetalinkHSatus)),this, SLOT(isMetalinkHttp()));
   
