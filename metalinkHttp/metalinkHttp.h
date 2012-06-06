@@ -31,16 +31,19 @@ class metalinkHttp : public QObject
   public:
     metalinkHttp(const KUrl&);
     ~metalinkHttp();
+    void checkMetalinkHttp();
+        
+  public slots:
     bool isMetalinkHttp();
     
   private slots:
     void slotHeaderResult(KJob* kjob);
-    
+       
   private:
     const KUrl m_Url;
     bool m_MetalinkHSatus;
-    const QMap<QString, QString>* headerInfo;
-    
+    QMap<QString, QString> m_headerInfo;
+    void parseHeaders(const QString&);
 };
   
   

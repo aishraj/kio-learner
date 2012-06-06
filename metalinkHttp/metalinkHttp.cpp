@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "metalinkHttp.h"
 #include <kdebug.h>
+#include <QtCore/QString>
 
 metalinkHttp::metalinkHttp(const KUrl& Url)
   : m_MetalinkHSatus(false),
@@ -31,7 +32,7 @@ metalinkHttp::~metalinkHttp()
 
 }
 
-bool metalinkHttp::isMetalinkHttp()
+void metalinkHttp::checkMetalinkHttp()
 {
 
   KIO::SimpleJob *job;
@@ -39,17 +40,43 @@ bool metalinkHttp::isMetalinkHttp()
   job = KIO::get(m_Url);
   job->addMetaData("PropagateHttpHeader","true");
   job->setRedirectionHandlingEnabled(false);//In case this is set true of left to the defaults the URL is being redirected.
-  connect(job, SIGNAL(result(KJob*)), this, SLOT(slotResult(KJob*)));
-  return m_MetalinkHSatus;
+  connect(job, SIGNAL(result(KJob*)), this, SLOT(slotHeaderResult(KJob*)));
+  
 }
 
 void metalinkHttp::slotHeaderResult(KJob* kjob)
 {
   KIO::Job* job = qobject_cast<KIO::Job*>(kjob);
   const QString httpHeaders = job ? job->queryMetaData("HTTP-Headers") : QString();
+  parseHeaders(httpHeaders);
   qDebug() << "HTTP HEADERS:" << httpHeaders;
   m_MetalinkHSatus = true;
+  connect(this,SIGNAL(valueChanged(m_MetalinkHSatus)),this, SLOT(isMetalinkHttp()));
   
+}
+
+bool metalinkHttp::isMetalinkHttp()
+{
+  if (m_MetalinkHSatus) {
+  qDebug() << " Yes the URL is metalinkHttp";
+  }
+  else {
+    qDebug() << "No the URL is not metalinkHttp";
+  }
+  return m_MetalinkHSatus;
+}
+
+void metalinkHttp::parseHeaders(const QString &httpHeader )
+{
+  QString trimedHeader = httpHeader.mid(httpHeader.indexOf('\n') + 1).trimmed();
+  
+  foreach (QString line, trimedHeader.split('\n')) {
+    int colon = line.indexOf(':');
+    QString headerName = line.left(colon).trimmed();
+    QString headerValue = line.mid(colon + 1).trimmed();
+    
+    m_headerInfo.insertMulti(headerName,headerValue);
+  }
 }
 
 #include "metalinkHttp.moc"
