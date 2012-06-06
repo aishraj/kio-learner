@@ -7,9 +7,6 @@
 #include <KIO/SimpleJob>
 #include <KIO/Scheduler>
 
-class QNetworkReply;
-
-
 class showHttp : public QObject
 {
 
@@ -17,9 +14,6 @@ class showHttp : public QObject
 public:
     showHttp();
     virtual ~showHttp();
-
-private:
-    QNetworkReply * m_headerReply;
 
 public slots:
     void slotResult(KJob* kjob);
