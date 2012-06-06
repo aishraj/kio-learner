@@ -42,7 +42,7 @@ class metalinkHttp : public QObject
   private:
     const KUrl m_Url;
     bool m_MetalinkHSatus;
-    QMap<QString, QString> m_headerInfo;
+    QMultiMap<QString, QString> m_headerInfo;
     void parseHeaders(const QString&);
 };
   
