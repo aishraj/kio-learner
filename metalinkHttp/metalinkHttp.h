@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KIO/Job>
 #include <KIO/SimpleJob>
 #include <KIO/Scheduler>
+#include <QtCore/QEventLoop>
 
 class metalinkHttp : public QObject
 {
@@ -32,8 +33,6 @@ class metalinkHttp : public QObject
     metalinkHttp(const KUrl&);
     ~metalinkHttp();
     void checkMetalinkHttp();
-        
-  public slots:
     bool isMetalinkHttp();
     
   private slots:
@@ -44,6 +43,7 @@ class metalinkHttp : public QObject
     bool m_MetalinkHSatus;
     QMultiMap<QString, QString> m_headerInfo;
     void parseHeaders(const QString&);
+    QEventLoop m_loop;
 };
   
   
