@@ -1,5 +1,5 @@
 /*
-Copyright 2012  Aish Raj Dahal dahalaishraj@gmail.com
+Copyright 2012  Aish Raj Dahal < dahalaishraj at gmail.com >
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License as
@@ -41,9 +41,11 @@ class metalinkHttp : public QObject
   private:
     const KUrl m_Url;
     bool m_MetalinkHSatus;
+    QEventLoop m_loop;
     QMultiMap<QString, QString> m_headerInfo;
     void parseHeaders(const QString&);
-    QEventLoop m_loop;
+    void setMetalinkHSatus();
+
 };
   
   

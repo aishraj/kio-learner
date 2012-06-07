@@ -1,5 +1,5 @@
 /*
-Copyright 2012  Aish Raj Dahal dahalaishraj@gmail.com
+Copyright 2012  Aish Raj Dahal < dahalaishraj at gmail.com >
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License as
@@ -51,8 +51,10 @@ void metalinkHttp::slotHeaderResult(KJob* kjob)
   const QString httpHeaders = job ? job->queryMetaData("HTTP-Headers") : QString();
   parseHeaders(httpHeaders);
   //qDebug() << "HTTP HEADERS:" << httpHeaders;
-  //TODO: add a method that checks if this header was a metalink http header. THen after that set the flag as true. For now, the flag has been set as true.
-  m_MetalinkHSatus = true;
+  //TODO: add a method that checks if this header was a metalink http header. 
+  //Then after that set the flag as true. For now, the flag has been set as true.
+  //m_MetalinkHSatus = true;
+  setMetalinkHSatus();
   m_loop.exit();
   
 }
@@ -76,6 +78,13 @@ void metalinkHttp::parseHeaders(const QString &httpHeader )
     }
     m_headerInfo.insertMulti(headerName,headerValue);
   }
+}
+
+void metalinkHttp::setMetalinkHSatus()
+{
+    if ((m_headerInfo.contains("link")) && (m_headerInfo.contains("digest"))) {
+        m_MetalinkHSatus = true;
+    }
 }
 
 #include "metalinkHttp.moc"
