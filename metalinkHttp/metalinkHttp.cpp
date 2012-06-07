@@ -36,7 +36,6 @@ void metalinkHttp::checkMetalinkHttp()
 {
 
   KIO::SimpleJob *job;
-  //job = KIO::get(KUrl("http://download.services.openoffice.org/files/du.list"));
   job = KIO::get(m_Url);
   job->addMetaData("PropagateHttpHeader","true");
   job->setRedirectionHandlingEnabled(false);//In case this is set true of left to the defaults the URL is being redirected.

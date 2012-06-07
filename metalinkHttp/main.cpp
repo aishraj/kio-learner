@@ -1,5 +1,5 @@
 /*
-Copyright 2012  Aish Raj Dahal dahalaishraj@gmail.com
+Copyright 2012  Aish Raj Dahal <dahalaishraj at gmail.com>
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License as
@@ -28,7 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 int main(int argc, char** argv)
 {
     QCoreApplication app(argc, argv);
-    metalinkHttp foo(KUrl("http://download.services.openoffice.org/files/du.list"));
+    metalinkHttp foo(KUrl("http://download.services.openoffice.org/files/du.list"));//Metalink
+    //metalinkHttp foo(KUrl("http://www.example.com"));//Not a metalink
     foo.checkMetalinkHttp();
     if (foo.isMetalinkHttp()) {
       qDebug() << "Yes it is metalinkHttp" ;
