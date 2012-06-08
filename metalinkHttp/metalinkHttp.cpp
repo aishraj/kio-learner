@@ -78,9 +78,34 @@ void metalinkHttp::parseHeaders(const QString &httpHeader )
 
 void metalinkHttp::setMetalinkHSatus()
 {
-    if ((m_headerInfo.contains("link")) && (m_headerInfo.contains("digest"))) {
+    bool linkStatus, digestStatus;
+    linkStatus = digestStatus = false;
+    if (m_headerInfo.contains("link")) {
+        QList<QString> linkValues = m_headerInfo.values("link");
+
+        foreach (QString linkVal, linkValues) {
+            if (linkVal.contains("rel=duplicate")) {
+                linkStatus = true;
+                break;
+            }
+        }
+    }
+
+    if (m_headerInfo.contains("digest")) {
+        QList<QString> digestValues = m_headerInfo.values("digest");
+
+        foreach (QString digestVal, digestValues) {
+            if (digestVal.contains("sha-256", Qt::CaseInsensitive)) {
+                digestStatus = true;
+                break;
+            }
+        }
+    }
+
+    if ((linkStatus) && (digestStatus)) {
         m_MetalinkHSatus = true;
     }
+
 }
 
 #include "metalinkHttp.moc"
