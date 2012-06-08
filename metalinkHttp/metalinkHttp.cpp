@@ -38,8 +38,9 @@ void metalinkHttp::checkMetalinkHttp()
   KIO::SimpleJob *job;
   job = KIO::get(m_Url);
   job->addMetaData("PropagateHttpHeader","true");
-  job->setRedirectionHandlingEnabled(false);//In case this is set true of left to the defaults the URL is being redirected.
+  job->setRedirectionHandlingEnabled(false);
   connect(job, SIGNAL(result(KJob*)), this, SLOT(slotHeaderResult(KJob*)));
+  qDebug() << " Verifying Metalink/HTTP Status" ;
   m_loop.exec();
   
 }
@@ -49,10 +50,6 @@ void metalinkHttp::slotHeaderResult(KJob* kjob)
   KIO::Job* job = qobject_cast<KIO::Job*>(kjob);
   const QString httpHeaders = job ? job->queryMetaData("HTTP-Headers") : QString();
   parseHeaders(httpHeaders);
-  //qDebug() << "HTTP HEADERS:" << httpHeaders;
-  //TODO: add a method that checks if this header was a metalink http header. 
-  //Then after that set the flag as true. For now, the flag has been set as true.
-  //m_MetalinkHSatus = true;
   setMetalinkHSatus();
   m_loop.exit();
   
