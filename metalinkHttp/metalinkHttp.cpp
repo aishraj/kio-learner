@@ -24,7 +24,7 @@ metalinkHttp::metalinkHttp(const KUrl& Url)
     : m_MetalinkHSatus(false),
       m_Url(Url)
 {
-
+    checkMetalinkHttp();
 }
 
 metalinkHttp::~metalinkHttp()

@@ -32,11 +32,12 @@ class metalinkHttp : public QObject
 public:
     metalinkHttp(const KUrl&);
     ~metalinkHttp();
-    void checkMetalinkHttp();
     bool isMetalinkHttp();
 
 private slots:
     void slotHeaderResult(KJob* kjob);
+    void checkMetalinkHttp();
+
 
 private:
     const KUrl m_Url;

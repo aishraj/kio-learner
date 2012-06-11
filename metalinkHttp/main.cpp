@@ -30,7 +30,7 @@ int main(int argc, char** argv)
     QCoreApplication app(argc, argv);
     metalinkHttp foo(KUrl("http://download.services.openoffice.org/files/du.list"));//Metalink
     //metalinkHttp foo(KUrl("http://www.example.com"));//Not a metalink
-    foo.checkMetalinkHttp();
+    //foo.checkMetalinkHttp();
     if (foo.isMetalinkHttp()) {
         qDebug() << "Yes it is metalinkHttp" ;
     } else {
