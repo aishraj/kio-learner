@@ -58,8 +58,9 @@ void metalinkHttp::slotHeaderResult(KJob* kjob)
 
 bool metalinkHttp::isMetalinkHttp()
 {
-    foreach(QString mapval, m_headerInfo) {
-        qDebug() << mapval ;
+    QList<QString> linkList = m_headerInfo.values("link");
+    foreach( QString link, linkList) {
+        qDebug() << link ;
     }
 
     return m_MetalinkHSatus;
