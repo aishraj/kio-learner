@@ -22,7 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 metalinkHttp::metalinkHttp(const KUrl& Url)
     : m_Url(Url),
-      m_MetalinkHSatus(false)
+      m_MetalinkHSatus(false),
+      m_isVerifyiable(true)
 
 {
     checkMetalinkHttp();
@@ -35,16 +36,37 @@ metalinkHttp::~metalinkHttp()
 
 void metalinkHttp::checkMetalinkHttp()
 {
-
-    KIO::SimpleJob *job;
-    job = KIO::get(m_Url);
-    job->addMetaData("PropagateHttpHeader", "true");
-    job->setRedirectionHandlingEnabled(false);
-    connect(job, SIGNAL(result(KJob*)), this, SLOT(slotHeaderResult(KJob*)));
-    qDebug() << " Verifying Metalink/HTTP Status" ;
+    KIO::TransferJob *job;
+    job =  KIO::get(m_Url);
+    //job->setRedirectionHandlingEnabled(false);
+    connect(job,SIGNAL(mimetype(KIO::Job*,QString)), SLOT(checkVerifiable(KIO::Job*,QString)));
+    job->putOnHold();
+    qDebug() << "checking mime type" ;
     m_loop.exec();
+    if (m_isVerifyiable) {
+        job =  KIO::get(m_Url);
+        job->addMetaData("PropagateHttpHeader", "true");
+        job->setRedirectionHandlingEnabled(false);
+        connect(job, SIGNAL(result(KJob*)), this, SLOT(slotHeaderResult(KJob*)));
+        qDebug() << " Verifying Metalink/HTTP Status" ;
+        m_loop.exec();
+    }
 
 }
+
+void metalinkHttp::checkVerifiable(KIO::Job* mJob, QString slotval)
+{
+    //const QString miVal = mJob->mimetype();
+    if (slotval == QString("text/html")) {
+        m_isVerifyiable = true ;
+    }
+    else {
+        m_isVerifyiable = false;
+    }
+    qDebug() << slotval ;
+    m_loop.exit();
+} 
+
 
 void metalinkHttp::slotHeaderResult(KJob* kjob)
 {
@@ -58,7 +80,7 @@ void metalinkHttp::slotHeaderResult(KJob* kjob)
 
 bool metalinkHttp::isMetalinkHttp()
 {
-    QList<QString> linkList = m_headerInfo.values("link");
+    QList<QString> linkList = m_headerInfo.values("digest");
     foreach( QString link, linkList) {
         qDebug() << link ;
     }

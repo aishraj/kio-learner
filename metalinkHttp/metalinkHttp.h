@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QObject>
 #include <KIO/AccessManager>
 #include <KIO/Job>
+#include <KIO/MimetypeJob>
 #include <KIO/SimpleJob>
 #include <KIO/Scheduler>
 #include <QtCore/QEventLoop>
@@ -34,6 +35,9 @@ public:
     ~metalinkHttp();
     bool isMetalinkHttp();
 
+public slots:
+    void checkVerifiable(KIO::Job *mJob, QString);
+
 private slots:
     void slotHeaderResult(KJob* kjob);
     void checkMetalinkHttp();
@@ -45,6 +49,7 @@ private:
     QMultiMap<QString, QString> m_headerInfo;
     void parseHeaders(const QString&);
     void setMetalinkHSatus();
+    bool m_isVerifyiable;
 
 };
 
