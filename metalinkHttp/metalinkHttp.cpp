@@ -36,9 +36,10 @@ metalinkHttp::~metalinkHttp()
 void metalinkHttp::checkMetalinkHttp()
 {
 
-    KIO::AccessManager *manager = new KIO::AccessManager(this);
+    //QNetworkAccessManager *manager = new QNetworkAccessManager; Gives the entire header list
+    KIO::AccessManager *manager = new KIO::AccessManager(this); // Redirection occurs
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(slotHeaderResult(QNetworkReply*)));
-    manager->head(QNetworkRequest(QUrl("http://download.services.openoffice.org/files/du.list")));
+    manager->head(QNetworkRequest(m_Url));
     m_loop.exec();
 
 }
