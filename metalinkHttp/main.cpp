@@ -29,7 +29,9 @@ int main(int argc, char** argv)
 {
     QCoreApplication app(argc, argv);
     //The following URLS are metalink. Should produce a yes response.
+
     metalinkHttp foo(KUrl("http://download.services.openoffice.org/files/du.list"));//Metalink
+
     //metalinkHttp foo(KUrl("http://download.services.openoffice.org/files/stable/3.3.0/OOo-SDK_3.3.0_Linux_x86-64_install-deb_en-US.tar.gz"));
     //The following URLs are not metalink. Should produce a NO response.
     //metalinkHttp foo(KUrl("http://www.example.com"));//Not a metalink
@@ -40,7 +42,4 @@ int main(int argc, char** argv)
     } else {
         qDebug() << " No this is not metalinkHttp ";
     }
-    QByteArray text = QByteArray::fromBase64("VO2S9pgCq1lqgTFTKssVj6amn0npNdagtjI8ziDtiRQ=");
-    text.data();            // returns "Qt is great!"
-    qDebug() << text;
 }
