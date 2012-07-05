@@ -36,17 +36,14 @@ metalinkHttp::~metalinkHttp()
 void metalinkHttp::checkMetalinkHttp()
 {
 
-    KIO::TransferJob *job;
-    job = KIO::get(m_Url);
-    job->addMetaData("PropagateHttpHeader", "true");
-    job->setRedirectionHandlingEnabled(false);
-    connect(job, SIGNAL(data(KIO::Job*,QByteArray)), this, SLOT(slotHeaderResult(KIO::Job*, QByteArray)));
-    qDebug() << " Verifying Metalink/HTTP Status" ;
+    KIO::AccessManager *manager = new KIO::AccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(slotHeaderResult(QNetworkReply*)));
+    manager->head(QNetworkRequest(m_Url));
     m_loop.exec();
 
 }
 
-void metalinkHttp::slotHeaderResult(KIO::Job* kjob, QByteArray &strRef)
+void metalinkHttp::slotHeaderResult(QNetworkReply* reply)
 {
     /*
     KIO::Job* job = kjob;
@@ -54,9 +51,12 @@ void metalinkHttp::slotHeaderResult(KIO::Job* kjob, QByteArray &strRef)
     parseHeaders(httpHeaders);
     setMetalinkHSatus();
     */
-    qDebug() << strRef;
-    KIO::MetaData metD = kjob->metaData();
-    qDebug() << metD ;
+    const QList<QNetworkReply::RawHeaderPair> headers = reply->rawHeaderPairs();
+    foreach(const QNetworkReply::RawHeaderPair headerInfo, headers)
+    {
+        qDebug() << headerInfo.first << ":" << headerInfo.second;
+    }
+    m_MetalinkHSatus = true;
     m_loop.exit();
 
 }

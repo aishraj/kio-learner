@@ -25,6 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KIO/SimpleJob>
 #include <KIO/Scheduler>
 #include <QtCore/QEventLoop>
+#include <QtNetwork>
+#include <QtNetwork/QNetworkAccessManager>
 
 class metalinkHttp : public QObject
 {
@@ -35,7 +37,7 @@ public:
     bool isMetalinkHttp();
 
 private slots:
-    void slotHeaderResult(KIO::Job *kjob, QByteArray & strRef);
+    void slotHeaderResult(QNetworkReply *);
     void checkMetalinkHttp();
 
 private:
