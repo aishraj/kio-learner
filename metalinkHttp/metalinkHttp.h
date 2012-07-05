@@ -35,7 +35,7 @@ public:
     bool isMetalinkHttp();
 
 private slots:
-    void slotHeaderResult(KJob* kjob);
+    void slotHeaderResult(KIO::Job *kjob, QByteArray & strRef);
     void checkMetalinkHttp();
 
 private:
