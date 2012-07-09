@@ -37,6 +37,7 @@ public:
 private slots:
     void slotHeaderResult(KJob* kjob);
     void checkMetalinkHttp();
+    void detectMime(KIO::Job *  job, const QString &  type);
 
 private:
     const KUrl m_Url;
@@ -45,7 +46,6 @@ private:
     QMultiMap<QString, QString> m_headerInfo;
     void parseHeaders(const QString&);
     void setMetalinkHSatus();
-
 };
 
 

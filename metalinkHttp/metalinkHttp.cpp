@@ -36,14 +36,21 @@ metalinkHttp::~metalinkHttp()
 void metalinkHttp::checkMetalinkHttp()
 {
 
-    KIO::SimpleJob *job;
+    KIO::TransferJob *job;
     job = KIO::get(m_Url);
     job->addMetaData("PropagateHttpHeader", "true");
     job->setRedirectionHandlingEnabled(false);
-    connect(job, SIGNAL(result(KJob*)), this, SLOT(slotHeaderResult(KJob*)));
+    //connect(job, SIGNAL(result(KJob*)), this, SLOT(slotHeaderResult(KJob*))); //This works
+    connect(job,SIGNAL(mimetype(KIO::Job*,QString)),this,SLOT(detectMime(KIO::Job*,QString))); //This does not
     qDebug() << " Verifying Metalink/HTTP Status" ;
     m_loop.exec();
+}
 
+void metalinkHttp::detectMime(KIO::Job* job, const QString& type)
+{
+  qDebug() << type ;
+  qDebug() << "Mime Type signal recieved" ;
+  m_loop.exit();
 }
 
 void metalinkHttp::slotHeaderResult(KJob* kjob)
@@ -52,8 +59,6 @@ void metalinkHttp::slotHeaderResult(KJob* kjob)
     const QString httpHeaders = job ? job->queryMetaData("HTTP-Headers") : QString();
     parseHeaders(httpHeaders);
     setMetalinkHSatus();
-    m_loop.exit();
-
 }
 
 bool metalinkHttp::isMetalinkHttp()
