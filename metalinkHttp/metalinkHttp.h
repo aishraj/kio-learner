@@ -35,8 +35,8 @@ public:
     bool isMetalinkHttp();
 
 private slots:
-    void slotHeaderResult(KJob* kjob);
     void checkMetalinkHttp();
+    void mimeResult(KIO::Job* job);
 
 private:
     const KUrl m_Url;
@@ -47,7 +47,5 @@ private:
     void setMetalinkHSatus();
 
 };
-
-
 
 #endif // showHttp_H

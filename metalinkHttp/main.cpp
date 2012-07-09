@@ -29,11 +29,11 @@ int main(int argc, char** argv)
 {
     QCoreApplication app(argc, argv);
     //The following URLS are metalink. Should produce a yes response.
-    //metalinkHttp foo(KUrl("http://download.services.openoffice.org/files/du.list"));//Metalink
-    //metalinkHttp foo(KUrl("http://download.services.openoffice.org/files/stable/3.3.0/OOo-SDK_3.3.0_Linux_x86-64_install-deb_en-US.tar.gz"));
+    //metalinkHttp foo(KUrl("http://download.services.openoffice.org/files/du.list"));
+    metalinkHttp foo(KUrl("http://download.services.openoffice.org/files/stable/3.3.0/OOo-SDK_3.3.0_Linux_x86-64_install-deb_en-US.tar.gz"));
     //The following URLs are not metalink. Should produce a NO response.
     //metalinkHttp foo(KUrl("http://www.example.com"));//Not a metalink
-    metalinkHttp foo(KUrl("http://releng.archlinux.org/isos/2012.06.05_04-00-01/archlinux-2012.06.05_04-00-01-core-dual.iso"));
+    //metalinkHttp foo(KUrl("http://releng.archlinux.org/isos/2012.06.05_04-00-01/archlinux-2012.06.05_04-00-01-core-dual.iso"));
     //foo.checkMetalinkHttp();
     if (foo.isMetalinkHttp()) {
         qDebug() << "Yes it is metalinkHttp" ;
