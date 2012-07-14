@@ -40,32 +40,52 @@ void metalinkHttp::checkMetalinkHttp()
     job = KIO::get(m_Url);
     job->addMetaData("PropagateHttpHeader", "true");
     job->setRedirectionHandlingEnabled(false);
-    //connect(job, SIGNAL(result(KJob*)), this, SLOT(slotHeaderResult(KJob*))); //This works
-    connect(job,SIGNAL(mimetype(KIO::Job*,QString)),this,SLOT(detectMime(KIO::Job*,QString))); //This does not
+    connect(job, SIGNAL(result(KJob*)), this, SLOT(slotHeaderResult(KJob*)));  // Finished
+    connect(job, SIGNAL(redirection(KIO::Job*,KUrl)), this, SLOT(slotRedirection(KIO::Job*,KUrl))); // Redirection
+    connect(job,SIGNAL(mimetype(KIO::Job*,QString)),this,SLOT(detectMime(KIO::Job*,QString))); // Mime detection.
     qDebug() << " Verifying Metalink/HTTP Status" ;
     m_loop.exec();
 }
 
 void metalinkHttp::detectMime(KIO::Job* job, const QString& type)
 {
-  qDebug() << type ;
-  qDebug() << "Mime Type signal recieved" ;
-  m_loop.exit();
+  Q_UNUSED(job);
+  Q_UNUSED(type);
+  //qDebug() << type ;
+  //qDebug() << "Mime Type signal recieved" ;
+
 }
 
 void metalinkHttp::slotHeaderResult(KJob* kjob)
 {
     KIO::Job* job = qobject_cast<KIO::Job*>(kjob);
     const QString httpHeaders = job ? job->queryMetaData("HTTP-Headers") : QString();
+    qDebug() << httpHeaders ;
     parseHeaders(httpHeaders);
     setMetalinkHSatus();
+    m_loop.exit();
+/*
+    // Handle the redirection... (Comment out if not desired)
+    if (m_redirectionUrl.isValid()) {
+       m_Url = m_redirectionUrl;
+       m_redirectionUrl = KUrl();
+       checkMetalinkHttp();
+    } */
+    //m_MetalinkHSatus = true;
+}
+
+void metalinkHttp::slotRedirection(KIO::Job* job, const KUrl& url)
+{
+    Q_UNUSED(job)
+    m_redirectionUrl = url;
 }
 
 bool metalinkHttp::isMetalinkHttp()
 {
+   /* 
     foreach(QString mapval, m_headerInfo) {
         qDebug() << mapval ;
-    }
+    } */
 
     return m_MetalinkHSatus;
 }

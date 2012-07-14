@@ -28,8 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 int main(int argc, char** argv)
 {
     QCoreApplication app(argc, argv);
-    metalinkHttp foo(KUrl("http://download.services.openoffice.org/files/du.list"));//Metalink
-    //metalinkHttp foo(KUrl("http://www.example.com"));//Not a metalink
+    //metalinkHttp foo(KUrl("http://openoffice.mirrorbrain.org/du.list"));//Metalink
+    //metalinkHttp foo(KUrl("http://go-oo.mirrorbrain.org/stable/linux-i586/GoOo-release-0.0.3-0.noarch.rpm"));//Metalink
+    metalinkHttp foo(KUrl("http://www.las.ic.unicamp.br/pub/archlinux/iso/2011.08.19/archlinux-2011.08.19-core-i686.iso"));//Not a metalink
     //foo.checkMetalinkHttp();
     if (foo.isMetalinkHttp()) {
         qDebug() << "Yes it is metalinkHttp" ;

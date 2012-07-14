@@ -38,9 +38,11 @@ private slots:
     void slotHeaderResult(KJob* kjob);
     void checkMetalinkHttp();
     void detectMime(KIO::Job *  job, const QString &  type);
+    void slotRedirection(KIO::Job*, const KUrl&);
 
 private:
-    const KUrl m_Url;
+    KUrl m_Url;
+    KUrl m_redirectionUrl;
     bool m_MetalinkHSatus;
     QEventLoop m_loop;
     QMultiMap<QString, QString> m_headerInfo;
