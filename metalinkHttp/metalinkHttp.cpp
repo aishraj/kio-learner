@@ -35,6 +35,10 @@ metalinkHttp::~metalinkHttp()
 
 void metalinkHttp::checkMetalinkHttp()
 {
+    if (!m_Url.isValid()) {
+        kDebug() << "Url not valid";
+        return;
+    }
 
     KIO::TransferJob *job;
     job = KIO::get(m_Url);
@@ -49,29 +53,25 @@ void metalinkHttp::checkMetalinkHttp()
 
 void metalinkHttp::detectMime(KIO::Job* job, const QString& type)
 {
-  Q_UNUSED(job);
-  Q_UNUSED(type);
-  //qDebug() << type ;
-  //qDebug() << "Mime Type signal recieved" ;
-
+    qDebug() << type ;
+    qDebug() << "Mime Type signal recieved" ;
+    job->kill();
+    m_loop.exit();
 }
 
 void metalinkHttp::slotHeaderResult(KJob* kjob)
 {
     KIO::Job* job = qobject_cast<KIO::Job*>(kjob);
     const QString httpHeaders = job ? job->queryMetaData("HTTP-Headers") : QString();
-    qDebug() << httpHeaders ;
     parseHeaders(httpHeaders);
     setMetalinkHSatus();
-    m_loop.exit();
-/*
+
     // Handle the redirection... (Comment out if not desired)
     if (m_redirectionUrl.isValid()) {
        m_Url = m_redirectionUrl;
        m_redirectionUrl = KUrl();
        checkMetalinkHttp();
-    } */
-    //m_MetalinkHSatus = true;
+    }
 }
 
 void metalinkHttp::slotRedirection(KIO::Job* job, const KUrl& url)
@@ -82,11 +82,11 @@ void metalinkHttp::slotRedirection(KIO::Job* job, const KUrl& url)
 
 bool metalinkHttp::isMetalinkHttp()
 {
-   /* 
+    /*
     foreach(QString mapval, m_headerInfo) {
         qDebug() << mapval ;
-    } */
-
+    }
+    */
     return m_MetalinkHSatus;
 }
 

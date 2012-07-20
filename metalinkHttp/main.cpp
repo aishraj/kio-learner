@@ -28,13 +28,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 int main(int argc, char** argv)
 {
     QCoreApplication app(argc, argv);
-    //metalinkHttp foo(KUrl("http://openoffice.mirrorbrain.org/du.list"));//Metalink
-    //metalinkHttp foo(KUrl("http://go-oo.mirrorbrain.org/stable/linux-i586/GoOo-release-0.0.3-0.noarch.rpm"));//Metalink
-    metalinkHttp foo(KUrl("http://www.las.ic.unicamp.br/pub/archlinux/iso/2011.08.19/archlinux-2011.08.19-core-i686.iso"));//Not a metalink
+    //metalinkHttp foo(KUrl("http://www.cs.princeton.edu/~rs/AlgsDS07/17GeometricSearch.pdf"));//Not a Metalink
+    metalinkHttp foo(KUrl("http://openoffice.mirrorbrain.org/stable/3.3.0/OOo_3.3.0_Linux_x86-64_install-rpm-wJRE_en-US.tar.gz"));//Metalink
+    //metalinkHttp foo(KUrl("http://www.kernel.org/pub/linux/kernel/v3.0/linux-3.4.4.tar.bz2"));//Not a metalink
     //foo.checkMetalinkHttp();
     if (foo.isMetalinkHttp()) {
         qDebug() << "Yes it is metalinkHttp" ;
     } else {
         qDebug() << " No this is not metalinkHttp ";
     }
+    app.exit(0);
 }
